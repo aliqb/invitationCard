@@ -7,7 +7,7 @@ import { useInvitationSequence } from './hooks/useInvitationSequence'
 import { THEME, themeVars } from './theme'
 
 export default function App() {
-  const { envelopeRef, cardRef, reveal, start, open, entered, flipped, ready, opened, risen, presented } =
+  const { envelopeRef, cardRef, reveal, start, open, entered, flipped, ready, unsealed, opened, risen, presented } =
     useInvitationSequence()
 
   return (
@@ -25,6 +25,7 @@ export default function App() {
           entered={entered}
           flipped={flipped}
           ready={ready}
+          unsealed={unsealed}
           opened={opened}
           presented={presented}
           onOpen={open}

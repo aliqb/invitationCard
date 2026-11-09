@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
+import { FLAP_UNSEAL_MS } from '../config'
 import { measureReveal, type Reveal } from '../reveal'
 import { at, type Stage } from '../stages'
 
@@ -38,12 +39,15 @@ export function useInvitationSequence() {
     return () => timers.current.forEach(clearTimeout)
   }, [start])
 
-  /* Click-driven act: the flap opens, the card rises, then the scene zooms onto it. */
+  /* Click-driven act: the seal cracks, the flap swings open, the card rises, then the
+     scene zooms onto it. FLAP_* durations in config.ts must agree with these delays. */
   const open = useCallback(() => {
     if (stage !== 'ready') return
-    setStage('opening')
-    after(700, () => setStage('rising'))
-    after(1150, () => {
+    setStage('unsealing')
+    after(FLAP_UNSEAL_MS, () => setStage('opening'))
+    // the card starts rising once the flap is well past upright, not when it has landed
+    after(FLAP_UNSEAL_MS + 700, () => setStage('rising'))
+    after(FLAP_UNSEAL_MS + 1150, () => {
       setReveal(measure())
       setStage('presented')
     })
@@ -69,6 +73,7 @@ export function useInvitationSequence() {
     entered: at(stage, 'entering'),
     flipped: at(stage, 'flipping'),
     ready: stage === 'ready',
+    unsealed: at(stage, 'unsealing'),
     opened: at(stage, 'opening'),
     risen: at(stage, 'rising'),
     presented: stage === 'presented',

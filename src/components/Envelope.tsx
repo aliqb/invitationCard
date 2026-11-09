@@ -10,13 +10,14 @@ type Props = {
   entered: boolean
   flipped: boolean
   ready: boolean
+  unsealed: boolean
   opened: boolean
   presented: boolean
   onOpen: () => void
 }
 
 /** The clickable envelope: drifts in, flips from back to front, then opens on click. */
-export function Envelope({ ref, children, entered, flipped, ready, opened, presented, onOpen }: Props) {
+export function Envelope({ ref, children, entered, flipped, ready, unsealed, opened, presented, onOpen }: Props) {
   return (
     <div
       ref={ref}
@@ -31,7 +32,7 @@ export function Envelope({ ref, children, entered, flipped, ready, opened, prese
         }
       }}
       className={[
-        'relative aspect-3/2 w-[min(86vw,420px)] outline-none transition-[opacity,transform] duration-900',
+        'relative aspect-3/2 w-[min(86vw,600px)] outline-none transition-[opacity,transform] duration-900',
         entered ? 'translate-y-0 scale-100 opacity-100' : 'translate-y-8 scale-90 opacity-0',
         ready ? 'cursor-pointer' : 'cursor-default',
       ].join(' ')}
@@ -47,7 +48,7 @@ export function Envelope({ ref, children, entered, flipped, ready, opened, prese
         }}
       >
         <EnvelopeBack faded={presented} />
-        <EnvelopeFront opened={opened} faded={presented}>
+        <EnvelopeFront unsealed={unsealed} opened={opened} faded={presented}>
           {children}
         </EnvelopeFront>
       </div>

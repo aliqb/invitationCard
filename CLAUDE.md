@@ -51,8 +51,9 @@ animation library, no per-frame JS.
   *cumulative*: once `risen` is true it stays true. A new stage must be **inserted into `STAGES`
   at the right position**, or every `at()` check silently changes meaning.
 - `start()` schedules the opening acts (`entering` → `flipping` → `ready`); `open()` schedules the
-  click-driven acts (`opening` → `rising` → `presented`). All timings are the `setTimeout` delays
-  in those two functions — that is the only place to retune pacing.
+  click-driven acts (`unsealing` → `opening` → `rising` → `presented`). The stage delays are the
+  `setTimeout`s in those two functions; the flap's own durations/angles/easing are the `FLAP_*`
+  constants in `config.ts`, and `open()` uses `FLAP_UNSEAL_MS` so the two stay in step.
 - Every timer handle is collected in `timers.current` and cleared by `start()`. `start()` is also
   the Replay button's handler, so it must stay re-entrant.
 
@@ -86,8 +87,20 @@ function. It is re-run on `resize` and `orientationchange` while `presented`.
 
 ### Layering inside the front face
 
-`zIndex` order is base paper (auto) → card `10` → pocket `20` → flap `30`. The flap drops to `5`
-once `opened`, so the risen card is not painted behind the opened flap's plane.
+`zIndex` order is inside wall (auto) → card `10` → pocket `20` → seal's bottom half `25` → flap
+`30`. The flap drops to `5` once `opened`, so the risen card is not painted behind the opened
+flap's plane.
+
+### The flap
+
+It swings with **positive** `rotateX` (free edge toward the viewer, like lifting a real flap) and
+lands at `188deg` — just past flat and slightly *behind* the envelope plane, so the rising card
+passes in front of it. It is two-sided: an outside face and an inside face (`rotateY(180deg)`,
+which keeps the symmetric clip-path in place), each with `backface-visibility: hidden`, each with
+a black shade overlay whose opacity transition fakes the lighting change. **Never put `opacity`
+on the flap container**: opacity < 1 flattens `preserve-3d` and breaks the two-sided faces, which
+is why the fade-out sits on each face. The wax seal is split along a jagged crack into
+complementary clip-paths: the top half rides the flap, the bottom half stays on the envelope.
 
 ### The deliberate double rotation
 

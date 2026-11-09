@@ -10,3 +10,13 @@ export const RISE_PCT = -175
 export const CARD_SCALE_IN = 0.78
 
 export const EASE = 'cubic-bezier(0.22, 1, 0.36, 1)'
+
+/* The flap opening, in two moves. Positive rotateX swings the flap's free edge toward the
+   viewer; 188deg lands it just past flat, slightly *behind* the envelope plane, so the rising
+   card is painted in front of it. */
+export const FLAP_UNSEAL_MS = 320
+export const FLAP_UNSEAL_DEG = 14
+export const FLAP_OPEN_MS = 1000
+export const FLAP_OPEN_DEG = 188
+/** Slow start (paper resists), fast swing, and a tiny overshoot as it settles. */
+export const FLAP_OPEN_EASE = 'cubic-bezier(0.55, 0, 0.2, 1.06)'

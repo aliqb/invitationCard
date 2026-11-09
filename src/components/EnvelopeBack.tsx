@@ -1,4 +1,3 @@
-const SEAM = 'absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.35),rgba(0,0,0,0.08))]'
 
 /** The back of the envelope: folded flaps. (The wax seal lives on the front flap.) */
 export function EnvelopeBack({ faded }: { faded: boolean }) {

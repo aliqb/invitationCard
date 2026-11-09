@@ -7,13 +7,15 @@ export type Theme = {
   /** Radial page background, glowing from the top centre outward. */
   background: { center: string; middle: string; edge: string }
   envelope: {
-    /** Back face and the paper behind the card. */
+    /** Back face of the envelope. */
     paper: Gradient
+    /** Inside of the envelope: the wall behind the card and the flap's underside. */
+    inside: Gradient
     /** Front pocket that covers the tucked-in card. */
     pocket: Gradient
-    /** Top flap, on both the back and the front. */
+    /** Outside of the top flap. */
     flap: Gradient
-    /** Wax seal on the back. */
+    /** Wax seal on the flap's tip. */
     seal: Gradient
   }
   /** "Tap to open" hint: must read clearly against `background`. */
@@ -25,6 +27,7 @@ export const THEME: Theme = {
   background: { center: '#ecfff9', middle: '#a9ffe4', edge: '#5eecc0' },
   envelope: {
     paper: { from: '#f7e6b0', to: '#ecd08a' },
+    inside: { from: '#e2c784', to: '#c9a95e' },
     pocket: { from: '#f2dc9c', to: '#dfc073' },
     flap: { from: '#faecc0', to: '#e9cf8c' },
     seal: { from: '#c5453f', to: '#7e1f1f' },

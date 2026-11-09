@@ -1,6 +1,6 @@
 /* Ordered: `at()` compares indices, so flags are cumulative. Insert new stages
    at the right position or every `at()` check silently changes meaning. */
-export const STAGES = ['hidden', 'entering', 'flipping', 'ready', 'opening', 'rising', 'presented'] as const
+export const STAGES = ['hidden', 'entering', 'flipping', 'ready', 'unsealing', 'opening', 'rising', 'presented'] as const
 
 export type Stage = (typeof STAGES)[number]
 
