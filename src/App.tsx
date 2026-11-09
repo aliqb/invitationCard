@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState, type CSSProperties, type KeyboardEvent } from 'react'
 
 /** Swap this for your own artwork (any aspect ratio - it is never cropped). */
 const IMAGE_SRC = '/invitation.svg'
@@ -11,20 +11,23 @@ const CARD_INSET_PCT = (100 - CARD_WIDTH_PCT) / 2
 const RISE_PCT = -175
 const CARD_SCALE_IN = 0.78
 
-const STAGES = ['hidden', 'entering', 'flipping', 'ready', 'opening', 'rising', 'presented']
-const at = (stage, name) => STAGES.indexOf(stage) >= STAGES.indexOf(name)
+const STAGES = ['hidden', 'entering', 'flipping', 'ready', 'opening', 'rising', 'presented'] as const
+type Stage = (typeof STAGES)[number]
+const at = (stage: Stage, name: Stage) => STAGES.indexOf(stage) >= STAGES.indexOf(name)
+
+type Reveal = Pick<CSSProperties, 'transform' | 'transformOrigin'>
 
 const EASE = 'cubic-bezier(0.22, 1, 0.36, 1)'
 
 export default function App() {
-  const [stage, setStage] = useState('hidden')
-  const [reveal, setReveal] = useState(null)
+  const [stage, setStage] = useState<Stage>('hidden')
+  const [reveal, setReveal] = useState<Reveal | null>(null)
 
-  const envelopeRef = useRef(null)
-  const cardRef = useRef(null)
-  const timers = useRef([])
+  const envelopeRef = useRef<HTMLDivElement>(null)
+  const cardRef = useRef<HTMLDivElement>(null)
+  const timers = useRef<ReturnType<typeof setTimeout>[]>([])
 
-  const after = useCallback((ms, fn) => {
+  const after = useCallback((ms: number, fn: () => void) => {
     timers.current.push(setTimeout(fn, ms))
   }, [])
 
@@ -47,7 +50,7 @@ export default function App() {
   /* Where the card ends up: centred in the viewport and scaled to fit it whole.
      Everything here is layout geometry (offsetWidth / offsetHeight), so it stays
      correct even while the scene already carries a transform. */
-  const measureReveal = useCallback(() => {
+  const measureReveal = useCallback((): Reveal | null => {
     const card = cardRef.current
     const envelope = envelopeRef.current
     if (!card || !envelope) return null
@@ -113,7 +116,7 @@ export default function App() {
           tabIndex={ready ? 0 : -1}
           aria-label="Open the invitation"
           onClick={open}
-          onKeyDown={(e) => {
+          onKeyDown={(e: KeyboardEvent<HTMLDivElement>) => {
             if (e.key === 'Enter' || e.key === ' ') {
               e.preventDefault()
               open()
@@ -235,7 +238,7 @@ export default function App() {
   )
 }
 
-function EnvelopeBack({ faded }) {
+function EnvelopeBack({ faded }: { faded: boolean }) {
   const seam = 'absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.35),rgba(0,0,0,0.08))]'
   return (
     <div

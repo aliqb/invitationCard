@@ -6,7 +6,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ```bash
 npm run dev      # Vite dev server with HMR
-npm run build    # production build to dist/
+npm run build    # tsc -b type-check, then production build to dist/
 npm run preview  # serve the built dist/
 npm run lint     # oxlint (NOT eslint — there is no eslint config)
 ```
@@ -19,7 +19,7 @@ A single-page online invitation card: an envelope animates in showing its back, 
 front, and on click the flap opens and the invitation card rises out and scales up to fill the
 viewport. Mobile-first. Vite + React 19 + Tailwind v4.
 
-Essentially the entire app is [src/App.jsx](src/App.jsx). Treat that file as the architecture.
+Essentially the entire app is [src/App.tsx](src/App.tsx). Treat that file as the architecture.
 
 ## Animation architecture
 
@@ -82,14 +82,14 @@ transform does not scale them. Anything that should stay at viewport scale belon
 
 ## Swapping the artwork
 
-`IMAGE_SRC` at the top of [src/App.jsx](src/App.jsx) points at `public/invitation.svg`, a
+`IMAGE_SRC` at the top of [src/App.tsx](src/App.tsx) points at `public/invitation.svg`, a
 placeholder. The image uses `object-contain` inside an `aspect-[3/4]` card, so any aspect ratio
 renders uncropped — but a landscape image will letterbox unless the card's `aspect-[3/4]` is
 changed to match.
 
 ## Styling
 
-Tailwind v4 through `@tailwindcss/vite` ([vite.config.js](vite.config.js)) — there is no
+Tailwind v4 through `@tailwindcss/vite` ([vite.config.ts](vite.config.ts)) — there is no
 `tailwind.config.js` and adding one will not be picked up. Theme tokens live in the `@theme` block
 in [src/index.css](src/index.css); the display font is loaded by a `<link>` in
 [index.html](index.html).
