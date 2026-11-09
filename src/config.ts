@@ -1,5 +1,9 @@
+/** URL for a file in public/, prefixed with Vite's `base` ('/' in dev, '/invitationCard/' when
+    built for GitHub Pages). Always use this - a bare '/path' works locally but 404s on Pages. */
+export const asset = (path: string) => import.meta.env.BASE_URL + path
+
 /** Swap this for your own artwork (any aspect ratio - it is never cropped). */
-export const IMAGE_SRC = '/invitation.svg'
+export const IMAGE_SRC = asset('invitation.svg')
 
 /** Venue location passed to each NAV_APPS resolver (navigations.ts). Neshan's link is fixed
     and ignores this, so update it in navigations.ts separately if the venue changes. */
@@ -10,7 +14,7 @@ export const FOOTER_RESERVE_PX = 72
 
 /** Wax seal on the flap's tip. Transparent PNG; keep it small (it renders ~70px wide).
     If the new image has a different aspect ratio, update `aspect-[…]` in WaxSeal.tsx. */
-export const SEAL_SRC = '/seal.png'
+export const SEAL_SRC = asset('seal.png')
 
 /* Geometry shared between the CSS layout (InvitationCard) and the reveal math
    (measureReveal). The card is CARD_WIDTH_PCT wide inside the envelope and, once

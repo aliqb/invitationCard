@@ -1,3 +1,5 @@
+import { asset } from "./config";
+
 export interface NavigationApp {
   id: string;
   title: string;
@@ -9,26 +11,26 @@ export const NAV_APPS: NavigationApp[] = [
   {
     id: "maps",
     title: "maps",
-    image: "/navs/maps.png",
+    image: asset("navs/maps.png"),
     resolver: (lat, long) => `https://www.google.com/maps?daddr=${lat},${long}`,
   },
   {
     id: "waze",
     title: "waze",
-    image: "/navs/waze.png",
+    image: asset("navs/waze.png"),
     resolver: (lat, long) =>
       `https://www.waze.com/livemap?ll=${lat},${long}&navigate=yes`,
   },
   {
     id: "neshan",
     title: "نشان",
-    image: "/navs/neshan.png",
+    image: asset("navs/neshan.png"),
     resolver: () => `https://nshn.ir/87rbvsWjOx4aSr`,
   },
   {
     id: "balad",
     title: "بلد",
-    image: "/navs/balad.png",
+    image: asset("navs/balad.png"),
     resolver: (lat, long) =>
       `https://balad.ir/location?latitude=${lat}&longitude=${long}&zoom=16.500000`,
   },

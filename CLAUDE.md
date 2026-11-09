@@ -135,6 +135,18 @@ linking to `resolver(VENUE.lat, VENUE.long)` (`VENUE` in `config.ts`). `measureR
 `FOOTER_RESERVE_PX` clear at the bottom so the footer button never covers the card (the expanded
 tiles do overlap it, deliberately, like a sheet).
 
+## Deployment
+
+GitHub Pages, as a project site: `https://aliqb.github.io/invitationCard/`.
+[.github/workflows/deploy.yml](.github/workflows/deploy.yml) builds and publishes `dist/` on every
+push to `master` (repo Settings → Pages → Source must be "GitHub Actions").
+
+Because the site lives under a sub-path, `base: '/invitationCard/'` is set in
+[vite.config.ts](vite.config.ts) (it must match the repo name). Vite rewrites `index.html` and
+CSS `url()`s itself, but **not** string literals in JS: always reference `public/` files through
+`asset('file.png')` from [src/config.ts](src/config.ts), never a bare `'/file.png'`. A bare path
+works in `npm run dev` and only breaks once deployed.
+
 ## Swapping the artwork
 
 `IMAGE_SRC` in [src/config.ts](src/config.ts) points at `public/invitation.svg`, a
