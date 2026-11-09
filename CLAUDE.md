@@ -19,7 +19,23 @@ A single-page online invitation card: an envelope animates in showing its back, 
 front, and on click the flap opens and the invitation card rises out and scales up to fill the
 viewport. Mobile-first. Vite + React 19 + Tailwind v4.
 
-Essentially the entire app is [src/App.tsx](src/App.tsx). Treat that file as the architecture.
+### File map
+
+- [src/App.tsx](src/App.tsx) — composition only: the viewport-filling scene div (which carries
+  the reveal transform) plus the overlay chrome.
+- [src/hooks/useInvitationSequence.ts](src/hooks/useInvitationSequence.ts) — the stage machine:
+  timers, `start()` / `open()`, the reveal state, the resize listener, and the two refs it
+  measures. It returns the derived boolean flags; components never see `stage` itself.
+- [src/stages.ts](src/stages.ts) — `STAGES`, the `Stage` type and `at()`.
+- [src/config.ts](src/config.ts) — `IMAGE_SRC`, the shared geometry constants and `EASE`.
+- [src/reveal.ts](src/reveal.ts) — `measureReveal(card, envelope)`, a pure function.
+- [src/components/](src/components/) — `Envelope` (clickable wrapper + flip container) →
+  `EnvelopeBack` (flaps, wax seal) and `EnvelopeFront` (paper, pocket, flap, and a `children`
+  slot for the card); `InvitationCard`; `TapHint`; `ReplayButton`.
+
+`App` passes `InvitationCard` as `Envelope`'s children, which forwards it into `EnvelopeFront`'s
+slot between the paper and the pocket — that slot position is the layering contract below.
+Refs are passed as plain `ref` props (React 19), not `forwardRef`.
 
 ## Animation architecture
 
@@ -82,7 +98,7 @@ transform does not scale them. Anything that should stay at viewport scale belon
 
 ## Swapping the artwork
 
-`IMAGE_SRC` at the top of [src/App.tsx](src/App.tsx) points at `public/invitation.svg`, a
+`IMAGE_SRC` in [src/config.ts](src/config.ts) points at `public/invitation.svg`, a
 placeholder. The image uses `object-contain` inside an `aspect-[3/4]` card, so any aspect ratio
 renders uncropped — but a landscape image will letterbox unless the card's `aspect-[3/4]` is
 changed to match.
