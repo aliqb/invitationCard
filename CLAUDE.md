@@ -34,8 +34,9 @@ viewport. Mobile-first. Vite + React 19 + Tailwind v4.
   The `theme-color` meta in [index.html](index.html) is static and should match `background.edge`.
 - [src/reveal.ts](src/reveal.ts) — `measureReveal(card, envelope)`, a pure function.
 - [src/components/](src/components/) — `Envelope` (clickable wrapper + flip container) →
-  `EnvelopeBack` (flaps, wax seal) and `EnvelopeFront` (paper, pocket, flap, and a `children`
-  slot for the card); `InvitationCard`; `TapHint`; `ReplayButton`.
+  `EnvelopeBack` (folded flaps) and `EnvelopeFront` (paper, pocket, flap, and a `children`
+  slot for the card); `WaxSeal`, which sits on the flap's tip (outside the flap's clip-path
+  div so it isn't cut off) with `backface-visibility: hidden` so it vanishes as the flap opens; `InvitationCard`; `TapHint`; `ReplayButton`.
 
 `App` passes `InvitationCard` as `Envelope`'s children, which forwards it into `EnvelopeFront`'s
 slot between the paper and the pocket — that slot position is the layering contract below.
@@ -94,6 +95,11 @@ The flip container rotates `rotateY(180deg)` *and* the front face is permanently
 `rotateY(180deg)`. The two compose to the identity, which is what keeps the front face's content
 from rendering mirrored. This is correct — do not "simplify" it away. Both the container and the
 front face need `transformStyle: preserve-3d` for the nested flap rotation to work.
+
+Because the front face is `preserve-3d`, its children live in the shared 3D context and ignore the
+front face's own `backface-visibility: hidden` — they render (mirrored) behind the back face, on
+the same plane. `EnvelopeBack` therefore carries `translateZ(2px)` to win the depth test; removing
+it brings back z-fighting (the back face flickers with the mirrored front layers before the flip).
 
 ### Overlay chrome
 

@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react'
 import { EASE } from '../config'
+import { WaxSeal } from './WaxSeal'
 
 type Props = {
   /** The card tucked inside; rendered between the back paper and the pocket. */
@@ -54,6 +55,8 @@ function Flap({ opened, fade }: { opened: boolean; fade: string }) {
         className="h-full w-full rounded-t-[14px] bg-[linear-gradient(175deg,var(--flap-from),var(--flap-to))] shadow-[0_6px_14px_-8px_rgba(0,0,0,0.45)]"
         style={{ clipPath: 'polygon(0% 0%, 100% 0%, 100% 34%, 50% 70%, 0% 34%)' }}
       />
+      {/* sibling of the clipped shape so the clip-path doesn't cut it; rides the flap's rotation */}
+      <WaxSeal />
     </div>
   )
 }
