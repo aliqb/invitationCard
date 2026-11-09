@@ -28,6 +28,10 @@ viewport. Mobile-first. Vite + React 19 + Tailwind v4.
   measures. It returns the derived boolean flags; components never see `stage` itself.
 - [src/stages.ts](src/stages.ts) — `STAGES`, the `Stage` type and `at()`.
 - [src/config.ts](src/config.ts) — `IMAGE_SRC`, the shared geometry constants and `EASE`.
+- [src/theme.ts](src/theme.ts) — `THEME`: background, envelope, wax-seal and hint colours. `App`
+  sets it on `<main>` as CSS custom properties (`themeVars()`); components read them as
+  `var(--paper-from)` etc. inside Tailwind arbitrary values. Don't hardcode colours in components.
+  The `theme-color` meta in [index.html](index.html) is static and should match `background.edge`.
 - [src/reveal.ts](src/reveal.ts) — `measureReveal(card, envelope)`, a pure function.
 - [src/components/](src/components/) — `Envelope` (clickable wrapper + flip container) →
   `EnvelopeBack` (flaps, wax seal) and `EnvelopeFront` (paper, pocket, flap, and a `children`

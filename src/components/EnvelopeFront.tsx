@@ -21,14 +21,14 @@ export function EnvelopeFront({ children, opened, faded }: Props) {
     >
       {/* paper behind the card */}
       <div
-        className={`absolute inset-0 rounded-[14px] bg-[linear-gradient(160deg,#f6ecdb,#e3d2b8)] shadow-[0_30px_60px_-20px_rgba(0,0,0,0.75)] transition-opacity duration-700 ${fade}`}
+        className={`absolute inset-0 rounded-[14px] bg-[linear-gradient(160deg,var(--paper-from),var(--paper-to))] shadow-[0_30px_60px_-20px_rgba(0,0,0,0.75)] transition-opacity duration-700 ${fade}`}
       />
 
       {children}
 
       {/* front pocket, overlapping the card while it is tucked away */}
       <div
-        className={`absolute inset-0 rounded-[14px] bg-[linear-gradient(190deg,#efe2cb,#d9c5a6)] transition-opacity duration-700 ${fade}`}
+        className={`absolute inset-0 rounded-[14px] bg-[linear-gradient(190deg,var(--pocket-from),var(--pocket-to))] transition-opacity duration-700 ${fade}`}
         style={{ zIndex: 20, clipPath: 'polygon(0% 34%, 50% 0%, 100% 34%, 100% 100%, 0% 100%)' }}
       />
 
@@ -51,7 +51,7 @@ function Flap({ opened, fade }: { opened: boolean; fade: string }) {
       }}
     >
       <div
-        className="h-full w-full rounded-t-[14px] bg-[linear-gradient(175deg,#f8efe0,#e0cdae)] shadow-[0_6px_14px_-8px_rgba(0,0,0,0.45)]"
+        className="h-full w-full rounded-t-[14px] bg-[linear-gradient(175deg,var(--flap-from),var(--flap-to))] shadow-[0_6px_14px_-8px_rgba(0,0,0,0.45)]"
         style={{ clipPath: 'polygon(0% 0%, 100% 0%, 100% 34%, 50% 70%, 0% 34%)' }}
       />
     </div>
