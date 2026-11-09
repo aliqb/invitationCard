@@ -88,9 +88,10 @@ function. It is re-run on `resize` and `orientationchange` while `presented`.
   which is why `measureReveal()` (layout values only) is untouched by it. All card poses share
   one function list — `translateY() rotate() scale()` — so they interpolate component-wise.
 - **The closed flap and the front pocket must tile the whole envelope face.** Their `clipPath`
-  polygons are complementary (flap bottom edge runs 34% at the edges → 70% at the centre; pocket
-  top edge runs 34% at the edges → 0% at the centre). The flap's bottom edge must sit at or below
-  the pocket's top edge at every x, or the card shows through the gap.
+  polygons overlap to cover it (flap bottom edge runs 34% at the edges → 70% at the centre; the
+  pocket is a plain rectangle whose straight top edge sits at 34%). The flap's bottom edge must
+  sit at or below the pocket's top edge at every x, or the card shows through the gap — so the
+  pocket's top can't go above 34% without also changing the flap.
 
 ### Layering inside the front face
 
