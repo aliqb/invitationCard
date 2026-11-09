@@ -1,6 +1,13 @@
 /** Swap this for your own artwork (any aspect ratio - it is never cropped). */
 export const IMAGE_SRC = '/invitation.svg'
 
+/** Venue location passed to each NAV_APPS resolver (navigations.ts). Neshan's link is fixed
+    and ignores this, so update it in navigations.ts separately if the venue changes. */
+export const VENUE = { lat: '35.7722086', long: '51.3747414' }
+
+/** Height (px) kept clear at the bottom of the reveal so the Footer never covers the card. */
+export const FOOTER_RESERVE_PX = 72
+
 /** Wax seal on the flap's tip. Transparent PNG; keep it small (it renders ~70px wide).
     If the new image has a different aspect ratio, update `aspect-[…]` in WaxSeal.tsx. */
 export const SEAL_SRC = '/seal.png'

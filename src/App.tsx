@@ -1,5 +1,6 @@
 import { Envelope } from './components/Envelope'
 import { InvitationCard } from './components/InvitationCard'
+import { Footer } from './components/Footer'
 import { ReplayButton } from './components/ReplayButton'
 import { TapHint } from './components/TapHint'
 import { EASE, IMAGE_SRC } from './config'
@@ -37,6 +38,7 @@ export default function App() {
       {/* overlay chrome - stays at viewport scale */}
       <TapHint visible={ready} />
       <ReplayButton visible={presented} onClick={start} />
+      <Footer visible={presented} />
     </main>
   )
 }

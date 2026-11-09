@@ -125,8 +125,15 @@ it brings back z-fighting (the back face flickers with the mirrored front layers
 
 ### Overlay chrome
 
-The "Tap to open" hint and the Replay button are rendered **outside** the scene div so the reveal
-transform does not scale them. Anything that should stay at viewport scale belongs there.
+The "Tap to open" hint, the Replay button and the `Footer` are rendered **outside** the scene div
+so the reveal transform does not scale them. Anything that should stay at viewport scale belongs
+there.
+
+`Footer` appears once `presented`; its "Navigation" button reveals one `NavApp` tile per entry in
+`NAV_APPS` ([src/navigations.ts](src/navigations.ts)), with a staggered `transition-delay`, each
+linking to `resolver(VENUE.lat, VENUE.long)` (`VENUE` in `config.ts`). `measureReveal()` keeps
+`FOOTER_RESERVE_PX` clear at the bottom so the footer button never covers the card (the expanded
+tiles do overlap it, deliberately, like a sheet).
 
 ## Swapping the artwork
 
