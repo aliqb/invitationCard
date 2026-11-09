@@ -7,7 +7,7 @@ export function TapHint({ visible }: { visible: boolean }) {
         visible ? 'opacity-100' : 'opacity-0',
       ].join(' ')}
     >
-      <span className="font-display text-xl uppercase tracking-[0.3em] text-(--hint-text)">Tap to open</span>
+      <span className="font-display text-xl uppercase tracking-[0.3em] text-(--hint-text)">کلیک کنید</span>
       <span className="h-6 w-px animate-pulse bg-(--hint-line)" />
     </div>
   )

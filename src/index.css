@@ -1,11 +1,5 @@
 @import "tailwindcss";
-
-@theme {
-  --font-display: "Cormorant Garamond", ui-serif, Georgia, serif;
-  --color-ink: #2b2118;
-  --color-paper: #fdfaf4;
-  --color-wax: #9c2b2b;
-}
+@import "./font.css";
 
 html,
 body,
@@ -15,5 +9,6 @@ body,
 
 body {
   margin: 0;
+  font-family: iransans;
   -webkit-tap-highlight-color: transparent;
 }

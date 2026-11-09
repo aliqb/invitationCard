@@ -21,13 +21,13 @@ export const NAV_APPS: NavigationApp[] = [
   },
   {
     id: "neshan",
-    title: "neshan",
+    title: "نشان",
     image: "/navs/neshan.png",
     resolver: () => `https://nshn.ir/87rbvsWjOx4aSr`,
   },
   {
     id: "balad",
-    title: "balad",
+    title: "بلد",
     image: "/navs/balad.png",
     resolver: (lat, long) =>
       `https://balad.ir/location?latitude=${lat}&longitude=${long}&zoom=16.500000`,

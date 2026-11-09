@@ -9,7 +9,7 @@ export function ReplayButton({ visible, onClick }: { visible: boolean; onClick: 
         visible ? 'opacity-100' : 'pointer-events-none opacity-0',
       ].join(' ')}
     >
-      Replay
+      بازپخش
     </button>
   )
 }

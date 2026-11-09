@@ -51,7 +51,7 @@ export function Footer({ visible }: { visible: boolean }) {
         onClick={() => setOpen((o) => !o)}
         className="cursor-pointer rounded-full bg-white/70 px-5 py-2 text-sm font-medium uppercase tracking-[0.2em] text-(--hint-text) shadow-[0_6px_16px_-8px_rgba(0,0,0,0.4)] backdrop-blur transition-colors hover:bg-white/90"
       >
-        Navigation
+        مسیریابی
       </button>
     </footer>
   )
