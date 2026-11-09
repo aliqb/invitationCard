@@ -51,7 +51,8 @@ animation library, no per-frame JS.
   *cumulative*: once `risen` is true it stays true. A new stage must be **inserted into `STAGES`
   at the right position**, or every `at()` check silently changes meaning.
 - `start()` schedules the opening acts (`entering` → `flipping` → `ready`); `open()` schedules the
-  click-driven acts (`unsealing` → `opening` → `rising` → `presented`). The stage delays are the
+  click-driven acts (`unsealing` → `opening` → `rising` (card slides out sideways) → `turning`
+  (card rotates upright into its final pose) → `presented`). The stage delays are the
   `setTimeout`s in those two functions; the flap's own durations/angles/easing are the `FLAP_*`
   constants in `config.ts`, and `open()` uses `FLAP_UNSEAL_MS` so the two stay in step.
 - Every timer handle is collected in `timers.current` and cleared by `start()`. `start()` is also
@@ -78,8 +79,14 @@ function. It is re-run on `resize` and `orientationchange` while `presented`.
 ### Two invariants that are easy to break
 
 - **Nothing is clipped anywhere.** The tucked-away card is hidden purely by being *covered*, so it
-  must fit inside the envelope: with the envelope at `aspect-[3/2]`, `CARD_WIDTH_PCT × 4/3 ×
-  CARD_SCALE_IN` must stay under the envelope height, or the card peeks out before the reveal.
+  must fit inside the envelope. It lies **sideways** (`CARD_TUCKED_DEG = -90`), so with the
+  envelope at 3:2 and the card at 3:4, both `CARD_WIDTH_PCT × 4/3 × CARD_SCALE_IN` (its width
+  across, as % of envelope width) and `CARD_WIDTH_PCT × 3/2 × CARD_SCALE_IN` (its height, as % of
+  envelope height) must stay under 100%, or the card pokes past the envelope edges once the flap
+  is open.
+- **The card's layout box is always portrait.** Sideways is purely `rotate()` in the transform,
+  which is why `measureReveal()` (layout values only) is untouched by it. All card poses share
+  one function list — `translateY() rotate() scale()` — so they interpolate component-wise.
 - **The closed flap and the front pocket must tile the whole envelope face.** Their `clipPath`
   polygons are complementary (flap bottom edge runs 34% at the edges → 70% at the centre; pocket
   top edge runs 34% at the edges → 0% at the centre). The flap's bottom edge must sit at or below
