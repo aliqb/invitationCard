@@ -15,8 +15,6 @@ export type Theme = {
     pocket: Gradient
     /** Outside of the top flap. */
     flap: Gradient
-    /** Wax seal on the flap's tip. */
-    seal: Gradient
   }
   /** "Tap to open" hint: must read clearly against `background`. */
   hint: { text: string; line: string }
@@ -30,7 +28,6 @@ export const THEME: Theme = {
     inside: { from: '#e2c784', to: '#c9a95e' },
     pocket: { from: '#f2dc9c', to: '#dfc073' },
     flap: { from: '#faecc0', to: '#e9cf8c' },
-    seal: { from: '#c5453f', to: '#7e1f1f' },
   },
   hint: { text: '#0b5545', line: '#128a6b' },
 }

@@ -28,7 +28,7 @@ viewport. Mobile-first. Vite + React 19 + Tailwind v4.
   measures. It returns the derived boolean flags; components never see `stage` itself.
 - [src/stages.ts](src/stages.ts) — `STAGES`, the `Stage` type and `at()`.
 - [src/config.ts](src/config.ts) — `IMAGE_SRC`, the shared geometry constants and `EASE`.
-- [src/theme.ts](src/theme.ts) — `THEME`: background, envelope, wax-seal and hint colours. `App`
+- [src/theme.ts](src/theme.ts) — `THEME`: background, envelope and hint colours. `App`
   sets it on `<main>` as CSS custom properties (`themeVars()`); components read them as
   `var(--paper-from)` etc. inside Tailwind arbitrary values. Don't hardcode colours in components.
   The `theme-color` meta in [index.html](index.html) is static and should match `background.edge`.
@@ -95,8 +95,7 @@ function. It is re-run on `resize` and `orientationchange` while `presented`.
 
 ### Layering inside the front face
 
-`zIndex` order is inside wall (auto) → card `10` → pocket `20` → seal's bottom half `25` → flap
-`30`. The flap drops to `5` once `opened`, so the risen card is not painted behind the opened
+`zIndex` order is inside wall (auto) → card `10` → pocket `20` → flap (with its seal) `30`. The flap drops to `5` once `opened`, so the risen card is not painted behind the opened
 flap's plane.
 
 ### The flap
@@ -107,8 +106,10 @@ passes in front of it. It is two-sided: an outside face and an inside face (`rot
 which keeps the symmetric clip-path in place), each with `backface-visibility: hidden`, each with
 a black shade overlay whose opacity transition fakes the lighting change. **Never put `opacity`
 on the flap container**: opacity < 1 flattens `preserve-3d` and breaks the two-sided faces, which
-is why the fade-out sits on each face. The wax seal is split along a jagged crack into
-complementary clip-paths: the top half rides the flap, the bottom half stays on the envelope.
+is why the fade-out sits on each face. The wax seal (`SEAL_SRC`, `public/seal.png` — the one image
+in the envelope) is whole and lives inside the flap container (outside the clipped faces, so it
+can hang past the tip): it lifts away with the flap and, being `backface-visibility: hidden`,
+disappears once the flap passes upright.
 
 ### The deliberate double rotation
 
@@ -141,7 +142,7 @@ Tailwind v4 through `@tailwindcss/vite` ([vite.config.ts](vite.config.ts)) — t
 in [src/index.css](src/index.css); the display font is loaded by a `<link>` in
 [index.html](index.html).
 
-Visual detail (envelope paper, folded flaps, wax seal) is Tailwind arbitrary-value gradients and
+Visual detail (envelope paper, flaps) is Tailwind arbitrary-value gradients and
 `clipPath` polygons — no images. Keep sizing proportional (`%`, `vw`, `min()`) rather than fixed
 pixels; the reveal math and the mobile-first layout both depend on it. Safe-area insets are
 already handled for the hint and Replay button.

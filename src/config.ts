@@ -1,6 +1,10 @@
 /** Swap this for your own artwork (any aspect ratio - it is never cropped). */
 export const IMAGE_SRC = '/invitation.svg'
 
+/** Wax seal on the flap's tip. Transparent PNG; keep it small (it renders ~70px wide).
+    If the new image has a different aspect ratio, update `aspect-[…]` in WaxSeal.tsx. */
+export const SEAL_SRC = '/seal.png'
+
 /* Geometry shared between the CSS layout (InvitationCard) and the reveal math
    (measureReveal). The card is CARD_WIDTH_PCT wide inside the envelope and, once
    pulled out and turned upright, sits RISE_PCT of its own height above its resting spot.

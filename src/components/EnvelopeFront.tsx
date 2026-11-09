@@ -10,8 +10,8 @@ type Props = {
   faded: boolean
 }
 
-/* Layering: inside wall (auto) -> card (10) -> pocket (20) -> seal's bottom half (25) ->
-   flap (30, drops to 5 once opened). The pocket and closed-flap clip-paths are complementary
+/* Layering: inside wall (auto) -> card (10) -> pocket (20) -> flap with its seal (30, drops
+   to 5 once opened). The pocket and closed-flap clip-paths are complementary
    and must tile the whole face. */
 
 const FLAP_CLIP = 'polygon(0% 0%, 100% 0%, 100% 34%, 50% 70%, 0% 34%)'
@@ -36,9 +36,6 @@ export function EnvelopeFront({ children, unsealed, opened, faded }: Props) {
         className={`absolute inset-0 rounded-[14px] bg-[linear-gradient(190deg,var(--pocket-from),var(--pocket-to))] ${fade}`}
         style={{ zIndex: 20, clipPath: 'polygon(0% 34%, 100% 34%, 100% 100%, 0% 100%)' }}
       />
-
-      {/* the half of the seal that stays stuck to the envelope when it cracks */}
-      <WaxSeal half="bottom" className={fade} zIndex={25} />
 
       <Flap unsealed={unsealed} opened={opened} fade={fade} />
     </div>
@@ -90,7 +87,7 @@ function Flap({ unsealed, opened, fade }: { unsealed: boolean; opened: boolean; 
       </div>
 
       {/* sibling of the clipped faces so the clip-path doesn't cut it; rides the flap's rotation */}
-      <WaxSeal half="top" className={fade} />
+      <WaxSeal className={fade} />
     </div>
   )
 }
