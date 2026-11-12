@@ -3,7 +3,7 @@ export function TapHint({ visible }: { visible: boolean }) {
   return (
     <div
       className={[
-        'pointer-events-none absolute inset-x-0 bottom-[max(1.75rem,env(safe-area-inset-bottom))] flex flex-col items-center gap-2 px-6 text-center transition-opacity duration-500',
+        'pointer-events-none absolute inset-x-0 bottom-[max(1.75rem,env(safe-area-inset-bottom))] flex flex-col items-center gap-2 px-6 text-center transition-opacity duration-(--t-fade)',
         visible ? 'opacity-100' : 'opacity-0',
       ].join(' ')}
     >

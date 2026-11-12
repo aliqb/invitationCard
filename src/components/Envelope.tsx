@@ -1,5 +1,5 @@
 import type { ReactNode, Ref } from 'react'
-import { EASE } from '../config'
+import { CONFIG } from '../config'
 import { EnvelopeBack } from './EnvelopeBack'
 import { EnvelopeFront } from './EnvelopeFront'
 
@@ -36,14 +36,14 @@ export function Envelope({ ref, children, entered, flipped, ready, unsealed, ope
         entered ? 'translate-y-0 scale-100 opacity-100' : 'translate-y-8 scale-90 opacity-0',
         ready ? 'cursor-pointer' : 'cursor-default',
       ].join(' ')}
-      style={{ perspective: '1600px', transitionTimingFunction: EASE }}
+      style={{ perspective: '1600px', transitionTimingFunction: CONFIG.timing.ease.default }}
     >
       {/* flip container: its rotateY(180deg) composes with EnvelopeFront's to the identity */}
       <div
-        className="relative h-full w-full transition-transform duration-1300"
+        className="relative h-full w-full transition-transform duration-(--t-flip)"
         style={{
           transformStyle: 'preserve-3d',
-          transitionTimingFunction: EASE,
+          transitionTimingFunction: CONFIG.timing.ease.default,
           transform: flipped ? 'rotateY(180deg)' : 'rotateY(0deg)',
         }}
       >

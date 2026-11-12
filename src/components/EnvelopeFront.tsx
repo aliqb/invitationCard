@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react'
-import { EASE, FLAP_OPEN_DEG, FLAP_OPEN_EASE, FLAP_OPEN_MS, FLAP_UNSEAL_DEG, FLAP_UNSEAL_MS } from '../config'
+import { CONFIG } from '../config'
 import { WaxSeal } from './WaxSeal'
 
 type Props = {
@@ -18,7 +18,7 @@ const FLAP_CLIP = 'polygon(0% 0%, 100% 0%, 100% 34%, 50% 70%, 0% 34%)'
 
 /** The front of the envelope. Permanently rotateY(180deg) to cancel the flip container's rotation. */
 export function EnvelopeFront({ children, unsealed, opened, faded }: Props) {
-  const fade = `transition-opacity duration-700 ${faded ? 'opacity-0' : 'opacity-100'}`
+  const fade = `transition-opacity duration-(--t-envelope-fade) ${faded ? 'opacity-0' : 'opacity-100'}`
   return (
     <div
       className="absolute inset-0"
@@ -44,8 +44,11 @@ export function EnvelopeFront({ children, unsealed, opened, faded }: Props) {
 
 /** The top flap, hinged on the envelope's top edge: tugs loose, then swings up and over toward the viewer. */
 function Flap({ unsealed, opened, fade }: { unsealed: boolean; opened: boolean; fade: string }) {
-  const angle = opened ? FLAP_OPEN_DEG : unsealed ? FLAP_UNSEAL_DEG : 0
-  const [duration, ease] = opened ? [FLAP_OPEN_MS, FLAP_OPEN_EASE] : [FLAP_UNSEAL_MS, EASE]
+  const { flap, timing } = CONFIG
+  const angle = opened ? flap.openDeg : unsealed ? flap.unsealDeg : 0
+  const [duration, ease] = opened
+    ? [timing.open.flap, timing.ease.flapOpen]
+    : [timing.open.unseal, timing.ease.default]
   const shadeTiming = { transitionDuration: `${duration}ms`, transitionTimingFunction: ease }
 
   return (

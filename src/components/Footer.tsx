@@ -1,5 +1,5 @@
 import { useId, useState } from 'react'
-import { VENUE } from '../config'
+import { CONFIG } from '../config'
 import { NAV_APPS } from '../navigations'
 import { NavApp } from './NavApp'
 
@@ -22,9 +22,9 @@ export function Footer({ visible }: { visible: boolean }) {
   return (
     <footer
       className={[
-        'absolute inset-x-0 bottom-[max(1rem,env(safe-area-inset-bottom))] flex flex-col items-center gap-3 px-4 transition-[opacity,translate] duration-600 ease-out',
+        'absolute inset-x-0 bottom-[max(1rem,env(safe-area-inset-bottom))] flex flex-col items-center gap-3 px-4 transition-[opacity,translate] duration-(--t-footer) ease-out',
         // wait for the zoom onto the card to mostly finish before sliding in
-        visible ? 'translate-y-0 opacity-100 delay-900' : 'pointer-events-none translate-y-4 opacity-0',
+        visible ? 'translate-y-0 opacity-100 delay-(--t-footer-delay)' : 'pointer-events-none translate-y-4 opacity-0',
       ].join(' ')}
     >
       <div
@@ -36,7 +36,7 @@ export function Footer({ visible }: { visible: boolean }) {
           <NavApp
             key={app.id}
             app={app}
-            href={app.resolver(VENUE.lat, VENUE.long)}
+            href={app.resolver(CONFIG.venue.lat, CONFIG.venue.long)}
             index={i}
             count={NAV_APPS.length}
             visible={expanded}

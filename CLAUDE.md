@@ -27,7 +27,10 @@ viewport. Mobile-first. Vite + React 19 + Tailwind v4.
   timers, `start()` / `open()`, the reveal state, the resize listener, and the two refs it
   measures. It returns the derived boolean flags; components never see `stage` itself.
 - [src/stages.ts](src/stages.ts) — `STAGES`, the `Stage` type and `at()`.
-- [src/config.ts](src/config.ts) — `IMAGE_SRC`, the shared geometry constants and `EASE`.
+- [src/config.ts](src/config.ts) — `CONFIG`, the one object holding every setting: `image`,
+  `music`, `seal`, `venue`, `footerReservePx`, the shared `card` geometry, `flap` angles and
+  `timing` (every animation duration, delay and easing). Plus the `asset()` helper, the derived
+  `CARD_INSET_PCT` and `timingVars()`. New settings go into `CONFIG`, not loose constants.
 - [src/theme.ts](src/theme.ts) — `THEME`: background, envelope and hint colours. `App`
   sets it on `<main>` as CSS custom properties (`themeVars()`); components read them as
   `var(--paper-from)` etc. inside Tailwind arbitrary values. Don't hardcode colours in components.
@@ -52,16 +55,21 @@ animation library, no per-frame JS.
   at the right position**, or every `at()` check silently changes meaning.
 - `start()` schedules the opening acts (`entering` → `flipping` → `ready`); `open()` schedules the
   click-driven acts (`unsealing` → `opening` → `rising` (card slides out sideways) → `turning`
-  (card rotates upright into its final pose) → `presented`). The stage delays are the
-  `setTimeout`s in those two functions; the flap's own durations/angles/easing are the `FLAP_*`
-  constants in `config.ts`, and `open()` uses `FLAP_UNSEAL_MS` so the two stay in step.
+  (card rotates upright into its final pose) → `presented`). **Every duration, delay and easing
+  curve lives in `CONFIG.timing` in `config.ts`** — the stage delays in those two
+  functions are derived from it, so the stages stay in step with the transitions. Durations
+  used by Tailwind classes reach CSS as `--t-*` custom properties (`timingVars()`, set on
+  `<main>` next to `themeVars()`) and are written `duration-(--t-fade)`; never hardcode a
+  `duration-500`-style number in a component. Flap angles are `CONFIG.flap`. The one
+  deliberate exception is the envelope's drift-in (`duration-900` in `Envelope.tsx`, the `60`ms
+  kick-off in `start()`): fixed on purpose, not worth configuring.
 - Every timer handle is collected in `timers.current` and cleared by `start()`. `start()` is also
   the Replay button's handler, so it must stay re-entrant.
 
 ### The JS ↔ CSS geometry contract
 
-`CARD_WIDTH_PCT` / `CARD_INSET_PCT` / `RISE_PCT` / `CARD_SCALE_IN` are consumed **both** by the
-card's inline styles and by `measureReveal()`. They are a shared contract, not local constants.
+`CONFIG.card.widthPct` / `CARD_INSET_PCT` / `CONFIG.card.risePct` / `CONFIG.card.scaleIn` are consumed **both** by the
+card's inline styles and by `measureReveal()`. They are a shared contract, not local values.
 
 `measureReveal()` computes the final scene transform that centres the card in the viewport and
 scales it to fit whole. It depends on two layout facts:
@@ -79,9 +87,9 @@ function. It is re-run on `resize` and `orientationchange` while `presented`.
 ### Two invariants that are easy to break
 
 - **Nothing is clipped anywhere.** The tucked-away card is hidden purely by being *covered*, so it
-  must fit inside the envelope. It lies **sideways** (`CARD_TUCKED_DEG = -90`), so with the
-  envelope at 3:2 and the card at 3:4, both `CARD_WIDTH_PCT × 4/3 × CARD_SCALE_IN` (its width
-  across, as % of envelope width) and `CARD_WIDTH_PCT × 3/2 × CARD_SCALE_IN` (its height, as % of
+  must fit inside the envelope. It lies **sideways** (`card.tuckedDeg = -90`), so with the
+  envelope at 3:2 and the card at 3:4, both `widthPct × 4/3 × scaleIn` (its width
+  across, as % of envelope width) and `widthPct × 3/2 × scaleIn` (its height, as % of
   envelope height) must stay under 100%, or the card pokes past the envelope edges once the flap
   is open.
 - **The card's layout box is always portrait.** Sideways is purely `rotate()` in the transform,
@@ -106,7 +114,7 @@ passes in front of it. It is two-sided: an outside face and an inside face (`rot
 which keeps the symmetric clip-path in place), each with `backface-visibility: hidden`, each with
 a black shade overlay whose opacity transition fakes the lighting change. **Never put `opacity`
 on the flap container**: opacity < 1 flattens `preserve-3d` and breaks the two-sided faces, which
-is why the fade-out sits on each face. The wax seal (`SEAL_SRC`, `public/seal.png` — the one image
+is why the fade-out sits on each face. The wax seal (`CONFIG.seal`, `public/seal.png` — the one image
 in the envelope) is whole and lives inside the flap container (outside the clipped faces, so it
 can hang past the tip): it lifts away with the flap and, being `backface-visibility: hidden`,
 disappears once the flap passes upright.
@@ -131,8 +139,8 @@ there.
 
 `Footer` appears once `presented`; its "Navigation" button reveals one `NavApp` tile per entry in
 `NAV_APPS` ([src/navigations.ts](src/navigations.ts)), with a staggered `transition-delay`, each
-linking to `resolver(VENUE.lat, VENUE.long)` (`VENUE` in `config.ts`). `measureReveal()` keeps
-`FOOTER_RESERVE_PX` clear at the bottom so the footer button never covers the card (the expanded
+linking to `resolver(CONFIG.venue.lat, CONFIG.venue.long)`. `measureReveal()` keeps
+`CONFIG.footerReservePx` clear at the bottom so the footer button never covers the card (the expanded
 tiles do overlap it, deliberately, like a sheet).
 
 ## Deployment
@@ -149,8 +157,7 @@ works in `npm run dev` and only breaks once deployed.
 
 ## Swapping the artwork
 
-`IMAGE_SRC` in [src/config.ts](src/config.ts) points at `public/invitation.svg`, a
-placeholder. The image uses `object-contain` inside an `aspect-[3/4]` card, so any aspect ratio
+`CONFIG.image` in [src/config.ts](src/config.ts) points at the artwork in `public/`. The image uses `object-contain` inside an `aspect-[3/4]` card, so any aspect ratio
 renders uncropped — but a landscape image will letterbox unless the card's `aspect-[3/4]` is
 changed to match.
 

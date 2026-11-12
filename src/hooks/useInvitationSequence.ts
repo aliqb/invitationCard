@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { CARD_RISE_MS, CARD_TURN_MS, FLAP_UNSEAL_MS, MUSIC_SRC, MUSIC_VOLUME } from '../config'
+import { CONFIG } from '../config'
 import { measureReveal, type Reveal } from '../reveal'
 import { at, type Stage } from '../stages'
 
@@ -23,10 +23,10 @@ export function useInvitationSequence() {
 
   /* Created once and preloaded, so play() inside the click starts without a download delay. */
   useEffect(() => {
-    const audio = new Audio(MUSIC_SRC)
+    const audio = new Audio(CONFIG.music.src)
     audio.loop = true
     audio.preload = 'auto'
-    audio.volume = MUSIC_VOLUME
+    audio.volume = CONFIG.music.volume
     music.current = audio
     return () => {
       audio.pause()
@@ -55,9 +55,11 @@ export function useInvitationSequence() {
     }
     setReveal(null)
     setStage('hidden')
+    const { flipDelay, flip } = CONFIG.timing.intro
+    // a frame or two after mount, so the hidden pose is painted and the drift-in transitions
     after(60, () => setStage('entering'))
-    after(1500, () => setStage('flipping'))
-    after(2800, () => setStage('ready'))
+    after(flipDelay, () => setStage('flipping'))
+    after(flipDelay + flip, () => setStage('ready'))
   }, [after])
 
   useEffect(() => {
@@ -67,18 +69,19 @@ export function useInvitationSequence() {
 
   /* Click-driven act: the seal cracks, the flap swings open, the card slides out sideways,
      turns upright, then the scene zooms onto it. Delays are built from the durations in
-     config.ts so the stages stay in step with the transitions. */
+     CONFIG.timing (config.ts) so the stages stay in step with the transitions. */
   const open = useCallback(() => {
     if (stage !== 'ready') return
+    const { unseal, riseDelay, rise, turnOverlap, turn } = CONFIG.timing.open
     // the card starts rising once the flap is well past upright, not when it has landed
-    const riseAt = FLAP_UNSEAL_MS + 700
+    const riseAt = unseal + riseDelay
     // start turning just before the slide fully settles, so the two moves flow together
-    const turnAt = riseAt + CARD_RISE_MS - 100
-    const presentAt = turnAt + CARD_TURN_MS
+    const turnAt = riseAt + rise - turnOverlap
+    const presentAt = turnAt + turn
     // must be called synchronously in the click handler, or mobile browsers block autoplay
     music.current?.play().catch(() => {})
     setStage('unsealing')
-    after(FLAP_UNSEAL_MS, () => setStage('opening'))
+    after(unseal, () => setStage('opening'))
     after(riseAt, () => setStage('rising'))
     after(turnAt, () => setStage('turning'))
     after(presentAt, () => {

@@ -1,4 +1,4 @@
-import { SEAL_SRC } from '../config'
+import { CONFIG } from '../config'
 
 type Props = {
   /** Extra classes, e.g. the fade-out once the card is presented. */
@@ -18,7 +18,7 @@ export function WaxSeal({ className = '' }: Props) {
       }}
     >
       <img
-        src={SEAL_SRC}
+        src={CONFIG.seal}
         alt=""
         draggable={false}
         className="h-full w-full drop-shadow-[0_3px_4px_rgba(0,0,0,0.35)]"

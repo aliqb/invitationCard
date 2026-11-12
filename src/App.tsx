@@ -4,7 +4,7 @@ import { Footer } from './components/Footer'
 import { MuteButton } from './components/MuteButton'
 import { ReplayButton } from './components/ReplayButton'
 import { TapHint } from './components/TapHint'
-import { EASE, IMAGE_SRC } from './config'
+import { CONFIG, timingVars } from './config'
 import { useInvitationSequence } from './hooks/useInvitationSequence'
 import { THEME, themeVars } from './theme'
 
@@ -15,12 +15,12 @@ export default function App() {
   return (
     <main
       className="fixed inset-0 overflow-hidden select-none bg-[radial-gradient(120%_120%_at_50%_0%,var(--bg-center)_0%,var(--bg-middle)_60%,var(--bg-edge)_100%)]"
-      style={themeVars(THEME)}
+      style={{ ...themeVars(THEME), ...timingVars() }}
     >
       {/* the scene: fills the viewport and centres the envelope (measureReveal relies on this) */}
       <div
-        className="absolute inset-0 flex items-center justify-center transition-transform duration-1300"
-        style={{ transitionTimingFunction: EASE, ...(reveal ?? {}) }}
+        className="absolute inset-0 flex items-center justify-center transition-transform duration-(--t-zoom)"
+        style={{ transitionTimingFunction: CONFIG.timing.ease.default, ...(reveal ?? {}) }}
       >
         <Envelope
           ref={envelopeRef}
@@ -32,7 +32,7 @@ export default function App() {
           presented={presented}
           onOpen={open}
         >
-          <InvitationCard ref={cardRef} src={IMAGE_SRC} risen={risen} turned={turned} />
+          <InvitationCard ref={cardRef} src={CONFIG.image} risen={risen} turned={turned} />
         </Envelope>
       </div>
 

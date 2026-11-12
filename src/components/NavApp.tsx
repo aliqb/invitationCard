@@ -1,3 +1,4 @@
+import { CONFIG } from '../config'
 import type { NavigationApp } from '../navigations'
 
 type Props = {
@@ -11,13 +12,11 @@ type Props = {
   visible: boolean
 }
 
-const STAGGER_IN_MS = 90
-const STAGGER_OUT_MS = 40
-
 /** One navigation-app tile: opens the venue in that app. */
 export function NavApp({ app, href, index, count, visible }: Props) {
   // Appear left-to-right; disappear right-to-left, a bit quicker.
-  const delay = visible ? index * STAGGER_IN_MS : (count - 1 - index) * STAGGER_OUT_MS
+  const { navStaggerIn, navStaggerOut } = CONFIG.timing.chrome
+  const delay = visible ? index * navStaggerIn : (count - 1 - index) * navStaggerOut
 
   return (
     <a
@@ -26,7 +25,7 @@ export function NavApp({ app, href, index, count, visible }: Props) {
       rel="noopener noreferrer"
       aria-label={`Navigate with ${app.title}`}
       className={[
-        'flex w-[min(19vw,84px)] flex-col items-center gap-1.5 rounded-2xl bg-white/80 p-2 shadow-[0_8px_20px_-10px_rgba(0,0,0,0.45)] backdrop-blur transition-[opacity,translate,scale] duration-400 ease-out active:scale-95',
+        'flex w-[min(19vw,84px)] flex-col items-center gap-1.5 rounded-2xl bg-white/80 p-2 shadow-[0_8px_20px_-10px_rgba(0,0,0,0.45)] backdrop-blur transition-[opacity,translate,scale] duration-(--t-nav-tile) ease-out active:scale-95',
         visible ? 'translate-y-0 scale-100 opacity-100' : 'translate-y-4 scale-90 opacity-0',
       ].join(' ')}
       style={{ transitionDelay: `${delay}ms` }}

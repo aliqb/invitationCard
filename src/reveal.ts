@@ -1,5 +1,5 @@
 import type { CSSProperties } from 'react'
-import { CARD_INSET_PCT, FOOTER_RESERVE_PX, RISE_PCT } from './config'
+import { CARD_INSET_PCT, CONFIG } from './config'
 
 export type Reveal = Pick<CSSProperties, 'transform' | 'transformOrigin'>
 
@@ -15,14 +15,14 @@ export function measureReveal(card: HTMLElement, envelope: HTMLElement): Reveal 
   // The scene fills the viewport and centres the envelope, so the envelope's
   // untransformed centre is always the viewport centre.
   const left = vw / 2 - envelope.offsetWidth / 2 + (CARD_INSET_PCT / 100) * envelope.offsetWidth
-  const top = vh / 2 + (RISE_PCT / 100) * ch
+  const top = vh / 2 + (CONFIG.card.risePct / 100) * ch
   const originX = left + cw / 2
   const originY = top + ch / 2
 
   // Fit into the viewport minus padding, keeping a strip clear at the bottom for the Footer.
   const pad = Math.min(20, vw * 0.04)
   const areaTop = pad
-  const areaBottom = vh - Math.max(pad, FOOTER_RESERVE_PX)
+  const areaBottom = vh - Math.max(pad, CONFIG.footerReservePx)
   const targetY = (areaTop + areaBottom) / 2
   const scale = Math.min((vw - pad * 2) / cw, (areaBottom - areaTop) / ch)
 

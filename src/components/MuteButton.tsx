@@ -8,7 +8,7 @@ export function MuteButton({ visible, muted, onClick }: { visible: boolean; mute
       aria-label={muted ? 'پخش موسیقی' : 'قطع موسیقی'}
       aria-pressed={muted}
       className={[
-        'absolute left-3 top-[max(0.75rem,env(safe-area-inset-top))] flex size-8 items-center justify-center rounded-full border border-white/20 bg-black/30 text-white/70 backdrop-blur transition-opacity duration-500 hover:text-white',
+        'absolute left-3 top-[max(0.75rem,env(safe-area-inset-top))] flex size-8 items-center justify-center rounded-full border border-white/20 bg-black/30 text-white/70 backdrop-blur transition-opacity duration-(--t-fade) hover:text-white',
         visible ? 'opacity-100' : 'pointer-events-none opacity-0',
       ].join(' ')}
     >

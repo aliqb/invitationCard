@@ -3,7 +3,7 @@
 export function EnvelopeBack({ faded }: { faded: boolean }) {
   return (
     <div
-      className={['absolute inset-0 transition-opacity duration-700', faded ? 'opacity-0' : 'opacity-100'].join(' ')}
+      className={['absolute inset-0 transition-opacity duration-(--t-envelope-fade)', faded ? 'opacity-0' : 'opacity-100'].join(' ')}
       // translateZ lifts the back off the front face's plane. EnvelopeFront is preserve-3d, so its
       // children ignore its backface-visibility and would otherwise z-fight with this face.
       style={{ backfaceVisibility: 'hidden', transform: 'translateZ(2px)' }}
