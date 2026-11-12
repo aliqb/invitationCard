@@ -22,14 +22,14 @@ export type Theme = {
 
 /** Edit these to restyle the page. */
 export const THEME: Theme = {
-  background: { center: '#ecfff9', middle: '#a9ffe4', edge: '#5eecc0' },
+  background: { center: '#fbf6ea', middle: '#f1e6cc', edge: '#e4d3ae' },
   envelope: {
-    paper: { from: '#f7e6b0', to: '#ecd08a' },
-    inside: { from: '#e2c784', to: '#c9a95e' },
-    pocket: { from: '#f2dc9c', to: '#dfc073' },
-    flap: { from: '#faecc0', to: '#e9cf8c' },
+    paper: { from: '#fffaf0', to: '#efe3c6' },
+    inside: { from: '#1f2a6b', to: '#121a4a' },
+    pocket: { from: '#f6ecd4', to: '#e6d5b0' },
+    flap: { from: '#fffaf0', to: '#efe3c6' },
   },
-  hint: { text: '#0b5545', line: '#128a6b' },
+  hint: { text: '#1a2366', line: '#2aa3b8' },
 }
 
 /* Exposes the theme as CSS custom properties, set once on the root element.
