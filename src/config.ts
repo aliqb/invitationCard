@@ -3,7 +3,7 @@
 export const asset = (path: string) => import.meta.env.BASE_URL + path
 
 /** Swap this for your own artwork (any aspect ratio - it is never cropped). */
-export const IMAGE_SRC = asset('invitation.svg')
+export const IMAGE_SRC = asset('feri_rotated.jpg')
 
 /** Venue location passed to each NAV_APPS resolver (navigations.ts). Neshan's link is fixed
     and ignores this, so update it in navigations.ts separately if the venue changes. */

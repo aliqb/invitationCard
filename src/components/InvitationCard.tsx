@@ -37,7 +37,7 @@ export function InvitationCard({ ref, src, alt = 'Invitation', risen, turned }: 
   return (
     <div
       ref={ref}
-      className="absolute top-1/2 aspect-3/4 rounded-[10px] bg-white p-[3.5%] shadow-[0_24px_50px_-18px_rgba(0,0,0,0.6)] transition-transform will-change-transform"
+      className="absolute top-1/2 aspect-3/4 rounded-[10px] bg-white  shadow-[0_24px_50px_-18px_rgba(0,0,0,0.6)] transition-transform will-change-transform"
       style={{
         left: `${CARD_INSET_PCT}%`,
         width: `${CARD_WIDTH_PCT}%`,
@@ -47,7 +47,7 @@ export function InvitationCard({ ref, src, alt = 'Invitation', risen, turned }: 
         transform: `translateY(${y}%) rotate(${deg}deg) scale(${scale})`,
       }}
     >
-      <img src={src} alt={alt} draggable={false} className="h-full w-full rounded-md object-contain" />
+      <img src={src} alt={alt} draggable={false} className="h-full w-full rounded-md object-cover" />
     </div>
   )
 }
