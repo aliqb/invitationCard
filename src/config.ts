@@ -5,6 +5,10 @@ export const asset = (path: string) => import.meta.env.BASE_URL + path
 /** Swap this for your own artwork (any aspect ratio - it is never cropped). */
 export const IMAGE_SRC = asset('feri_rotated_time.jpg')
 
+/** Background music, started when the envelope is opened (the click lets browsers allow it). */
+export const MUSIC_SRC = asset('musics/Laura-Sullivan-La-vie-en-rose-Instrumental-128.mp3')
+export const MUSIC_VOLUME = 0.6
+
 /** Venue location passed to each NAV_APPS resolver (navigations.ts). Neshan's link is fixed
     and ignores this, so update it in navigations.ts separately if the venue changes. */
 export const VENUE = { lat: '35.7722086', long: '51.3747414' }

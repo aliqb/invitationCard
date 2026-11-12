@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { CARD_RISE_MS, CARD_TURN_MS, FLAP_UNSEAL_MS } from '../config'
+import { CARD_RISE_MS, CARD_TURN_MS, FLAP_UNSEAL_MS, MUSIC_SRC, MUSIC_VOLUME } from '../config'
 import { measureReveal, type Reveal } from '../reveal'
 import { at, type Stage } from '../stages'
 
@@ -11,6 +11,28 @@ export function useInvitationSequence() {
   const envelopeRef = useRef<HTMLDivElement>(null)
   const cardRef = useRef<HTMLDivElement>(null)
   const timers = useRef<ReturnType<typeof setTimeout>[]>([])
+  const music = useRef<HTMLAudioElement | null>(null)
+  const [muted, setMuted] = useState(false)
+
+  const toggleMute = useCallback(() => {
+    setMuted((m) => {
+      if (music.current) music.current.muted = !m
+      return !m
+    })
+  }, [])
+
+  /* Created once and preloaded, so play() inside the click starts without a download delay. */
+  useEffect(() => {
+    const audio = new Audio(MUSIC_SRC)
+    audio.loop = true
+    audio.preload = 'auto'
+    audio.volume = MUSIC_VOLUME
+    music.current = audio
+    return () => {
+      audio.pause()
+      music.current = null
+    }
+  }, [])
 
   const after = useCallback((ms: number, fn: () => void) => {
     timers.current.push(setTimeout(fn, ms))
@@ -27,6 +49,10 @@ export function useInvitationSequence() {
   const start = useCallback(() => {
     timers.current.forEach(clearTimeout)
     timers.current = []
+    if (music.current) {
+      music.current.pause()
+      music.current.currentTime = 0
+    }
     setReveal(null)
     setStage('hidden')
     after(60, () => setStage('entering'))
@@ -49,6 +75,8 @@ export function useInvitationSequence() {
     // start turning just before the slide fully settles, so the two moves flow together
     const turnAt = riseAt + CARD_RISE_MS - 100
     const presentAt = turnAt + CARD_TURN_MS
+    // must be called synchronously in the click handler, or mobile browsers block autoplay
+    music.current?.play().catch(() => {})
     setStage('unsealing')
     after(FLAP_UNSEAL_MS, () => setStage('opening'))
     after(riseAt, () => setStage('rising'))
@@ -76,6 +104,8 @@ export function useInvitationSequence() {
     cardRef,
     start,
     open,
+    muted,
+    toggleMute,
     entered: at(stage, 'entering'),
     flipped: at(stage, 'flipping'),
     ready: stage === 'ready',

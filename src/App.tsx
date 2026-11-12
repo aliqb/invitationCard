@@ -1,6 +1,7 @@
 import { Envelope } from './components/Envelope'
 import { InvitationCard } from './components/InvitationCard'
 import { Footer } from './components/Footer'
+import { MuteButton } from './components/MuteButton'
 import { ReplayButton } from './components/ReplayButton'
 import { TapHint } from './components/TapHint'
 import { EASE, IMAGE_SRC } from './config'
@@ -8,7 +9,7 @@ import { useInvitationSequence } from './hooks/useInvitationSequence'
 import { THEME, themeVars } from './theme'
 
 export default function App() {
-  const { envelopeRef, cardRef, reveal, start, open, entered, flipped, ready, unsealed, opened, risen, turned, presented } =
+  const { envelopeRef, cardRef, reveal, start, open, muted, toggleMute, entered, flipped, ready, unsealed, opened, risen, turned, presented } =
     useInvitationSequence()
 
   return (
@@ -37,6 +38,7 @@ export default function App() {
 
       {/* overlay chrome - stays at viewport scale */}
       <TapHint visible={ready} />
+      <MuteButton visible={unsealed} muted={muted} onClick={toggleMute} />
       <ReplayButton visible={presented} onClick={start} />
       <Footer visible={presented} />
     </main>
