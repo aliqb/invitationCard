@@ -22,12 +22,12 @@ export type Theme = {
 
 /** Edit these to restyle the page. */
 export const THEME: Theme = {
-  background: { center: '#fbf6ea', middle: '#f1e6cc', edge: '#e4d3ae' },
+  background: { center: '#efe2c4', middle: '#dcc596', edge: '#c4a671' },
   envelope: {
-    paper: { from: '#fffaf0', to: '#efe3c6' },
+    paper: { from: '#fffdf7', to: '#f4ead3' },
     inside: { from: '#1f2a6b', to: '#121a4a' },
-    pocket: { from: '#f6ecd4', to: '#e6d5b0' },
-    flap: { from: '#fffaf0', to: '#efe3c6' },
+    pocket: { from: '#fbf4e4', to: '#ebdcbc' },
+    flap: { from: '#fffdf7', to: '#f4ead3' },
   },
   hint: { text: '#1a2366', line: '#2aa3b8' },
 }
