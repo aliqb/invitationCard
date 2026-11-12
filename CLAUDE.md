@@ -33,7 +33,7 @@ viewport. Mobile-first. Vite + React 19 + Tailwind v4.
   `CARD_INSET_PCT` and `timingVars()`. New settings go into `CONFIG`, not loose constants.
 - [src/theme.ts](src/theme.ts) — `THEME`: background, envelope and hint colours. `App`
   sets it on `<main>` as CSS custom properties (`themeVars()`); components read them as
-  `var(--paper-from)` etc. inside Tailwind arbitrary values. Don't hardcode colours in components.
+  `var(--back-from)` etc. inside Tailwind arbitrary values. Don't hardcode colours in components.
   The `theme-color` meta in [index.html](index.html) is static and should match `background.edge`.
 - [src/reveal.ts](src/reveal.ts) — `measureReveal(card, envelope)`, a pure function.
 - [src/components/](src/components/) — `Envelope` (clickable wrapper + flip container) →

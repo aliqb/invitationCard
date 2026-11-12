@@ -8,7 +8,7 @@ export function EnvelopeBack({ faded }: { faded: boolean }) {
       // children ignore its backface-visibility and would otherwise z-fight with this face.
       style={{ backfaceVisibility: 'hidden', transform: 'translateZ(2px)' }}
     >
-      <div className="absolute inset-0 overflow-hidden rounded-[14px] bg-[linear-gradient(160deg,var(--paper-from),var(--paper-to))] shadow-[0_30px_60px_-20px_rgba(0,0,0,0.75)]">
+      <div className="absolute inset-0 overflow-hidden rounded-[14px] bg-[linear-gradient(160deg,var(--back-from),var(--back-to))] shadow-[0_30px_60px_-20px_rgba(0,0,0,0.75)]">
 
       </div>
     </div>

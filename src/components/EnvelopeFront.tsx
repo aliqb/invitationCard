@@ -33,7 +33,7 @@ export function EnvelopeFront({ children, unsealed, opened, faded }: Props) {
 
       {/* front pocket, overlapping the card while it is tucked away */}
       <div
-        className={`absolute inset-0 rounded-[14px] bg-[linear-gradient(190deg,var(--pocket-from),var(--pocket-to))] ${fade}`}
+        className={`absolute inset-0 rounded-[14px] bg-[linear-gradient(190deg,var(--front-from),var(--front-to))] ${fade}`}
         style={{ zIndex: 20, clipPath: 'polygon(0% 34%, 100% 34%, 100% 100%, 0% 100%)' }}
       />
 

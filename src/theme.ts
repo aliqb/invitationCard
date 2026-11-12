@@ -8,11 +8,11 @@ export type Theme = {
   background: { center: string; middle: string; edge: string }
   envelope: {
     /** Back face of the envelope. */
-    paper: Gradient
+    back: Gradient
     /** Inside of the envelope: the wall behind the card and the flap's underside. */
     inside: Gradient
-    /** Front pocket that covers the tucked-in card. */
-    pocket: Gradient
+    /** Front of the envelope: the pocket that covers the tucked-in card. */
+    front: Gradient
     /** Outside of the top flap. */
     flap: Gradient
   }
@@ -22,19 +22,19 @@ export type Theme = {
 
 /** Edit these to restyle the page. */
 export const THEME: Theme = {
-  background: { center: '#efe2c4', middle: '#dcc596', edge: '#c4a671' },
+  background: { center: '#e6d3a8', middle: '#cfb27c', edge: '#b38f5a' },
   envelope: {
-    paper: { from: '#fffdf7', to: '#f4ead3' },
+    back: { from: '#f0e2c2', to: '#d9c191' },
     inside: { from: '#1f2a6b', to: '#121a4a' },
-    pocket: { from: '#fbf4e4', to: '#ebdcbc' },
-    flap: { from: '#fffdf7', to: '#f4ead3' },
+    front: { from: '#f8eed8', to: '#e8d6ae' },
+    flap: { from: '#f0e2c2', to: '#d9c191' },
   },
   hint: { text: '#1a2366', line: '#2aa3b8' },
 }
 
 /* Exposes the theme as CSS custom properties, set once on the root element.
    Components reference them in Tailwind arbitrary values, e.g.
-   bg-[linear-gradient(160deg,var(--paper-from),var(--paper-to))]. */
+   bg-[linear-gradient(160deg,var(--back-from),var(--back-to))]. */
 export function themeVars({ background, envelope, hint }: Theme): CSSProperties {
   const vars: Record<string, string> = {
     '--bg-center': background.center,
