@@ -7,11 +7,11 @@ export const asset = (path: string) => import.meta.env.BASE_URL + path
 /** Everything you might want to tweak, in one place. */
 export const CONFIG = {
   /** The invitation artwork. Any aspect ratio - it is never cropped. */
-  image: asset('feri_rotated_time.jpg'),
+  image: asset('feri_final.jpg'),
 
   /** Background music, started when the envelope is opened (the click lets browsers allow it). */
   music: {
-    src: asset('musics/Laura-Sullivan-La-vie-en-rose-Instrumental-128.mp3'),
+    src: asset('musics/Taknavazi-Kamkar.mp3'),
     volume: 0.6,
   },
 
